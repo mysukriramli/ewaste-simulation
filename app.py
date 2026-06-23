@@ -7,27 +7,27 @@ from sklearn.preprocessing import StandardScaler
 # Set page layout to wide for dashboard look
 st.set_page_config(layout="wide")
 
-# ==========================================
-# 🛠️ CONFIGURATION: PASTE YOUR NEW LINK HERE
-# ==========================================
-# Replace the link below with your actual live e-waste app URL from your browser bar!
-APP_URL = "https://scrap-plastic-misclassification-simulation-jghvmoc7yc3tvmrhyul.streamlit.app/"
-
 st.title("🚨 Live Trade Fraud Simulation: The E-Waste Smuggler Game")
 st.markdown("""
     **Classroom Context:** Students act as 'bad actors' trying to evade international environmental treaties by 
     disguising hazardous e-waste shipments under high-value machinery, electronics, and specialty equipment HS codes.
 """)
 
-# --- Expanded Legitimate E-Waste Baseline Data Reference ---
+# --- Highly Complex Legitimate E-Waste Baseline Data Reference ---
+# Deep catalog reflecting the paper's core data variables
 baseline_prices = {
-    850211: 7.50,  # Electric Generating Sets (The Smoking Gun Anomaly)
+    850211: 7.50,  # Electric Generating Sets (The Zero-Duty Loophole anomaly)
     847130: 12.50, # Data Processing Units / Obsolete Computers
     847290: 8.50,  # Other Office Machines
-    850440: 9.20,  # Electrical Transformers / Power Inverters
-    854231: 35.00, # Electronic Integrated Circuits (Premium Tech Baseline)
-    810196: 45.00, # Tungsten Wire / Specialty Rare Metals
-    901890: 30.00  # Medical Instruments and Appliances
+    850440: 9.20,  # Electrical Transformers & Power Inverters
+    854231: 35.00, # Electronic Integrated Circuits (High-Value Tech Baseline)
+    810196: 45.00, # Tungsten Specialty Metal Alloys
+    901890: 30.00, # Advanced Medical Instruments
+    720410: 1.20,  # Ferrous Waste and Scrap Baseline
+    840410: 95.00, # Auxiliary Plant for Boilers
+    847010: 150.00,# Electronic Accounting Calculators
+    847611: 110.00,# Automatic Goods-Vending Machines
+    854911: 1.10   # Official E-Waste Commodity Code (Scrap Control Baseline)
 }
 
 hs_descriptions = {
@@ -36,11 +36,16 @@ hs_descriptions = {
     847290: "Functional Office Machinery Items",
     850440: "Electrical Transformers & Inductors",
     854231: "Integrated Circuit Processors",
-    810196: "Specialty Tungsten & Rare Metal Alloys",
-    901890: "Advanced Medical Instruments"
+    810196: "Specialty Tungsten Rare Metal Alloys",
+    901890: "Advanced Medical Instruments",
+    720410: "Ferrous Scrap Metal (5% Base Tariff)",
+    840410: "Industrial Auxiliary Boiler Plants",
+    847010: "Electronic Accounting Systems",
+    847611: "Automatic Goods-Vending Sub-systems",
+    854911: "Discards: Spent Batteries & Electronic Waste"
 }
 
-# --- GLOBAL SHARED DATABASE MANAGER ---
+# --- GLOBAL SHARED DATABASE MANAGER (Bridges all student devices together) ---
 class GlobalDataManager:
     def __init__(self):
         self.df = pd.DataFrame(columns=[
@@ -74,7 +79,9 @@ with col1:
     st.header("📥 Student Submission Portal")
     
     st.markdown("### 📲 Scan to Join the Game Live!")
-    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={APP_URL}"
+    # NEW UPDATED TARGET LINK EMBEDDED DYNAMICALLY
+    app_url = "https://ewaste-simulation-qr4hzdvxxcvbbepw7sztvt.streamlit.app/"
+    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={app_url}"
     st.image(qr_api_url, caption="Scan with your phone camera to play", width=200)
     st.markdown("---")
     
@@ -155,11 +162,11 @@ with col2:
         
         df["Risk Profile"] = df.apply(define_profile, axis=1)
 
-    # STATE A: RESULTS HIDDEN
+    # STATE A: RESULTS HIDDEN (Teacher panel collection lock)
     if not st.session_state.reveal_results:
         st.info(f"📥 Neutral Data Collection Mode Active. Total e-waste manifests logged silently: **{total_manifests}**.")
         
-    # STATE B: REVEAL UNLOCKED
+    # STATE B: REVEAL UNLOCKED (Live interactive reveal)
     else:
         if not df.empty:
             # Multi-HS Code Metric Ranking Panel
@@ -193,7 +200,7 @@ with col2:
             chart_df = pd.DataFrame(chart_data).set_index("HS Code")
             st.bar_chart(chart_df, use_container_width=True)
             
-            # --- AUTOMATED REGULATORY COMMENTARY BLOCK ---
+            # --- FIXED NATIVE MARKDOWN AUTOMATED REGULATORY COMMENTARY BLOCK ---
             st.subheader("🤖 Automated E-Waste Intelligence Reports")
             
             has_alerts = False
@@ -209,7 +216,7 @@ with col2:
                         st.error(f"""
                         **🔴 CRITICAL ANOMALY DETECTED IN HARDWARE CODE: HS {code} ({hs_descriptions[code]})**
                         * **Fraud Profile:** Mass Hazardous Scrap Infiltration.
-                        * **Intelligence Analysis:** {exploiters_count} individual traders have aggregated a staggering {total_vol:,} KG under this sector, while crashing the unit valuation down to scrap metrics (Average Price Deficit: ${avg_def:.2f}/KG). This forms an explicit *inverse price-volume waste signature*. Disguising bulk e-waste as working technical machinery completely poisons international trade ledgers to bypass strict tracking constraints.
+                        * **Intelligence Analysis:** {exploiters_count} individual traders have aggregated a total of {total_vol:,} KG under this sector, while dropping the unit valuation down to scrap metrics. This tracks the inverse price-volume waste signature where falling values run parallel to volume spikes, exposing calculated evasion of trade restrictions.
                         """)
                     
                     elif code == 850211 and avg_def > 2.0:
@@ -217,7 +224,7 @@ with col2:
                         st.error(f"""
                         **🔴 SMOKING GUN TAX EVASION: HS {code} ({hs_descriptions[code]})**
                         * **Fraud Profile:** Zero-Tariff Loophole Exploitation.
-                        * **Intelligence Analysis:** Submissions indicate heavy volume integration inside the Electric Generator category at near-zero scrap pricing. Because legitimate generators carry an optimized 0% import duty rate compared to the standard 5% regulatory penalty on raw scrap inputs, bad actors are systematically treating this finished good code as a tax-free processing shield.
+                        * **Intelligence Analysis:** Submissions indicate heavy volume integration inside the Electric Generator category at near-zero scrap pricing. Because generators carry an optimized 0% import duty rate compared to standard regulatory penalties on raw scrap inputs, bad actors are treating this finished good code as a tariff shield.
                         """)
                         
                     elif avg_def > 3.0:
@@ -225,14 +232,14 @@ with col2:
                         st.warning(f"""
                         **🟡 SUSPICIOUS VALUE MATCH MANIPULATION: HS {code} ({hs_descriptions[code]})**
                         * **Fraud Profile:** Hidden Component Extraction Strategy.
-                        * **Intelligence Analysis:** Unit pricing data shows persistent deflation compared to prime retail benchmarks. Importers are running sub-scale volumes designed to slide below automated physical inspection triggers, indicating localized laundering of circuit assemblies or hazardous sorting practices.
+                        * **Intelligence Analysis:** Unit pricing data shows persistent deflation compared to prime retail benchmarks. Importers are running sub-scale volumes designed to slide below automated physical inspection triggers, indicating localized laundering of circuit assemblies.
                         """)
             
             if not has_alerts:
                 st.success("🟢 **System Clean:** No definitive electronic contamination signatures detected across tracked HS channels yet.")
                 
             # --- FULL LIVE RISK TABLE WATCHLIST ---
-            st.subheader("🕵️ Live Risk Watchlist (Real-time ML Analysis)")
+            st.subheader("🕵️ Live Risk Watchlist (Real-time Analysis)")
             display_df = df[["Trader Name", "HS Code", "Weight (KG)", "Declared Price ($/KG)", "Risk Profile"]]
             
             def highlight_risk(val):
