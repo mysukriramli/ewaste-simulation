@@ -7,6 +7,12 @@ from sklearn.preprocessing import StandardScaler
 # Set page layout to wide for dashboard look
 st.set_page_config(layout="wide")
 
+# ==========================================
+# 🛠️ CONFIGURATION: PASTE YOUR NEW LINK HERE
+# ==========================================
+# Replace the link below with your actual live e-waste app URL from your browser bar!
+APP_URL = "https://scrap-plastic-misclassification-simulation-jghvmoc7yc3tvmrhyul.streamlit.app/"
+
 st.title("🚨 Live Trade Fraud Simulation: The E-Waste Smuggler Game")
 st.markdown("""
     **Classroom Context:** Students act as 'bad actors' trying to evade international environmental treaties by 
@@ -68,9 +74,7 @@ with col1:
     st.header("📥 Student Submission Portal")
     
     st.markdown("### 📲 Scan to Join the Game Live!")
-    # Shared placeholder deployment string - updates dynamically once pushed
-    app_url = "https://scrap-plastic-misclassification-simulation-jghvmoc7yc3tvmrhyul.streamlit.app/"
-    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={app_url}"
+    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={APP_URL}"
     st.image(qr_api_url, caption="Scan with your phone camera to play", width=200)
     st.markdown("---")
     
@@ -200,7 +204,6 @@ with col2:
                     total_vol = sub_df["Weight (KG)"].sum()
                     exploiters_count = len(sub_df)
                     
-                    # CRITICAL ALERTS: Mass dumping or specific tariff evasion tactics
                     if avg_def > 5.0 and total_vol >= 100000:
                         has_alerts = True
                         st.error(f"""
